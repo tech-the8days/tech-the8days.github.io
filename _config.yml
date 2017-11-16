@@ -2,7 +2,7 @@
 permalink:      /:year-:month-:day/:title
 
 # Setup
-title:          8DAYS 블로그
+title:          Tech
 paginate:       5
 baseurl:        ""
 url:            "https://tech-the8days.github.io"
