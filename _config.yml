@@ -2,7 +2,7 @@
 permalink:      /:year-:month-:day/:title
 
 # Setup
-title:          Gtention 기술블로그
+title:          8DAYS 기술블로그
 paginate:       5
 baseurl:        ""
 url:            "https://tech-the8days.github.io"
