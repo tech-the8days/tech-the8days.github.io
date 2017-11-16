@@ -1,0 +1,390 @@
+---
+layout: post
+title: "React Redux"
+author: "Walter"
+profile_img: "https://scontent-hkg3-1.xx.fbcdn.net/v/t1.0-9/10366030_636578009746259_1851482307728595160_n.jpg?oh=925e7a27aa8d6a742ff26e99a471886f&oe=5AA13418"
+---
+
+
+<div id="doc" class="markdown-body container-fluid" style="position: relative;"><h1 id="summary-reactredux-and-so-on…">Summary React+Redux and so on…</h1><h2 id="소개">소개</h2><p>개발하는데 간단한 정리차원에서 요기저기 정보를 기록하였습니다.<br>
+React, Redux, 기타 도움이 될만한 동영상등을 참고하여 넣었습니다.<br>
+계속해서 도움이 될만한 부분에 대해서 추가할 예정입니다.</p><h1 id="참고사이트">참고사이트</h1><ul>
+<li>
+<p>React D3<br>
+<a href="http://oli.me.uk/2015/09/09/d3-within-react-the-right-way/" target="_blank">http://oli.me.uk/2015/09/09/d3-within-react-the-right-way/</a><br>
+<a href="http://www.adeveloperdiary.com/react-js/integrate-react-and-d3/" target="_blank">http://www.adeveloperdiary.com/react-js/integrate-react-and-d3/</a></p>
+</li>
+<li>
+<p>React touch example only Mobile<br>
+<a href="http://petehunt.github.io/react-touch/#/viewer" target="_blank">http://petehunt.github.io/react-touch/#/viewer</a></p>
+</li>
+</ul><h1 id="react-boilerplate">react-boilerplate</h1><dl>
+<dt>아래 기본프로젝트를 통해서 개발을 함.</dt>
+<dd><a href="https://github.com/mxstbr/react-boilerplate" target="_blank">https://github.com/mxstbr/react-boilerplate</a></dd>
+</dl><h1 id="react">React</h1><h2 id="react-proptypes">React PropTypes</h2><pre><code class="javascript hljs"><div class="wrapper"><div class="gutter linenumber continue"><span data-linenumber="1"></span>
+<span data-linenumber="2"></span>
+<span data-linenumber="3"></span>
+<span data-linenumber="4"></span>
+<span data-linenumber="5"></span>
+<span data-linenumber="6"></span>
+<span data-linenumber="7"></span>
+<span data-linenumber="8"></span>
+<span data-linenumber="9"></span>
+<span data-linenumber="10"></span>
+<span data-linenumber="11"></span>
+<span data-linenumber="12"></span>
+<span data-linenumber="13"></span>
+<span data-linenumber="14"></span>
+<span data-linenumber="15"></span>
+<span data-linenumber="16"></span>
+<span data-linenumber="17"></span>
+<span data-linenumber="18"></span>
+<span data-linenumber="19"></span>
+<span data-linenumber="20"></span>
+<span data-linenumber="21"></span>
+<span data-linenumber="22"></span>
+<span data-linenumber="23"></span>
+<span data-linenumber="24"></span>
+<span data-linenumber="25"></span></div><div class="code">React.PropTypes.array           <span class="hljs-comment">// 배열</span>
+React.PropTypes.bool.isRequired <span class="hljs-comment">// Boolean, 필수</span>
+React.PropTypes.func            <span class="hljs-comment">// 함수</span>
+React.PropTypes.number          <span class="hljs-comment">// 정수</span>
+React.PropTypes.object          <span class="hljs-comment">// 객체</span>
+React.PropTypes.string          <span class="hljs-comment">// 문자열</span>
+React.PropTypes.node            <span class="hljs-comment">// Render가 가능한 객체</span>
+React.PropTypes.element         <span class="hljs-comment">// React Element</span>
+React.PropTypes.instanceOf(XXX) <span class="hljs-comment">// XXX의 instance</span>
+React.PropTypes.oneOf([<span class="hljs-string">'foo'</span>, <span class="hljs-string">'bar'</span>]) <span class="hljs-comment">// foo 또는 bar</span>
+React.PropTypes.oneOfType([React.PropTypes.string, React.PropTypes.array]) <span class="hljs-comment">// 문자열 또는 배열</span>
+React.PropTypes.arrayOf(React.PropTypes.string)  <span class="hljs-comment">// 문자열을 원소로 가지는 배열</span>
+React.PropTypes.objectOf(React.PropTypes.string) <span class="hljs-comment">// 문자열을 값으로 가지는 객체</span>
+React.PropTypes.shape({                          <span class="hljs-comment">// 지정된 형식을 충족하는지</span>
+  color: React.PropTypes.string,
+  <span class="hljs-attr">fontSize</span>: React.PropTypes.number
+});
+React.PropTypes.any.isRequired  <span class="hljs-comment">// 어떤 타입이든 가능하지만 필수</span>
+
+<span class="hljs-comment">// 커스텀 제약도 정의 가능</span>
+customPropType: <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">props, propName, componentName</span>) </span>{
+  <span class="hljs-keyword">if</span> (!<span class="hljs-regexp">/^[0-9]/</span>.test(props[propName])) {
+    <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-built_in">Error</span>(<span class="hljs-string">'Validation failed!'</span>);
+  }
+}
+</div></div></code></pre><h2 id="state는-최소화">State는 최소화</h2><p>Prop만 가지고 있는 Immutable한 컴포넌트가 조작하거나 이해하기 쉬우므로, 기본적으로는 Prop을 고려하고, State를 가진 컴포넌트는 최소화 하는 게 좋습니다. 최상위 컴포넌트만 State를 갖게 하고, 하위 컴포넌트는 전부 Prop만을 가지는 Immutable한 컴포넌트로 구성하여 어떤 변경이 있을 때 최상위 컴포넌트에서 setState()하여 rerender 하는 설계도 가능합니다. 이는 VirtualDOM의 기술을 이용한 설계 방법입니다.</p><p>부모는 State를 갖고 있고, 자식의 Prop으로 값을 전달하는 것이 기본 흐름입니다. 자식은 값을 사용하기만 할 뿐 관리는 부모가 합니다.</p><p>ex) 예제</p><pre><code class="javascript hljs"><div class="wrapper"><div class="gutter linenumber continue"><span data-linenumber="26"></span>
+<span data-linenumber="27"></span>
+<span data-linenumber="28"></span>
+<span data-linenumber="29"></span>
+<span data-linenumber="30"></span>
+<span data-linenumber="31"></span>
+<span data-linenumber="32"></span>
+<span data-linenumber="33"></span>
+<span data-linenumber="34"></span>
+<span data-linenumber="35"></span>
+<span data-linenumber="36"></span>
+<span data-linenumber="37"></span>
+<span data-linenumber="38"></span>
+<span data-linenumber="39"></span>
+<span data-linenumber="40"></span>
+<span data-linenumber="41"></span>
+<span data-linenumber="42"></span>
+<span data-linenumber="43"></span>
+<span data-linenumber="44"></span>
+<span data-linenumber="45"></span>
+<span data-linenumber="46"></span>
+<span data-linenumber="47"></span>
+<span data-linenumber="48"></span>
+<span data-linenumber="49"></span>
+<span data-linenumber="50"></span>
+<span data-linenumber="51"></span>
+<span data-linenumber="52"></span>
+<span data-linenumber="53"></span>
+<span data-linenumber="54"></span>
+<span data-linenumber="55"></span>
+<span data-linenumber="56"></span>
+<span data-linenumber="57"></span>
+<span data-linenumber="58"></span>
+<span data-linenumber="59"></span>
+<span data-linenumber="60"></span>
+<span data-linenumber="61"></span>
+<span data-linenumber="62"></span></div><div class="code"><span class="hljs-keyword">var</span> User = React.createClass({
+  <span class="hljs-attr">propTypes</span>: {
+    <span class="hljs-attr">name</span>: React.PropTypes.string.isRequired,
+    <span class="hljs-attr">id</span>:   React.PropTypes.number.isRequired
+  },
+  render() {
+    <span class="hljs-keyword">return</span> (
+      <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span>{this.props.id}:{this.props.name}<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></span>
+    );
+  }
+});
+
+<span class="hljs-keyword">var</span> request = <span class="hljs-built_in">require</span>(<span class="hljs-string">'superagent'</span>);
+
+<span class="hljs-keyword">var</span> Users = React.createClass({
+  getInitialState() {
+    <span class="hljs-keyword">return</span> {
+      <span class="hljs-attr">users</span>: [{<span class="hljs-attr">id</span>: <span class="hljs-number">1</span>, <span class="hljs-attr">name</span>: <span class="hljs-string">'foo'</span>}, {<span class="hljs-attr">id</span>: <span class="hljs-number">2</span>, <span class="hljs-attr">name</span>: <span class="hljs-string">'bar'</span>}]
+    }
+  },
+  componentDidMount() {
+    request.get(<span class="hljs-string">'http://example.com/users/'</span>, (res) =&gt; {
+      <span class="hljs-keyword">this</span>.setState({<span class="hljs-attr">users</span>: res.body.users});
+    });
+  },
+  render() {
+    <span class="hljs-keyword">var</span> users = <span class="hljs-keyword">this</span>.state.users.map(<span class="hljs-function">(<span class="hljs-params">user</span>) =&gt;</span> {
+      <span class="hljs-keyword">return</span> <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">User</span> <span class="hljs-attr">id</span>=<span class="hljs-string">{user.id}</span> <span class="hljs-attr">name</span>=<span class="hljs-string">{user.name}</span> <span class="hljs-attr">key</span>=<span class="hljs-string">{user.id}/</span>&gt;</span>
+    });
+    return (
+      <span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>사용자 목록<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+        {users}
+      <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+    );
+  }
+});
+</span></div></div></code></pre><h1 id="redux">Redux</h1><h2 id="what-redux">What Redux?</h2><h3 id="구조-image">구조 Image</h3><dl>
+<dt>~ <img src="https://i.imgur.com/GvRmNv1.jpg" alt=""></dt>
+<dd><img src="https://raw.githubusercontent.com/mxstbr/react-boilerplate/master/docs/general/workflow.png" alt=""></dd>
+</dl><h2 id="react-포퍼먼스-문제">React 포퍼먼스 문제</h2><p>React 컴포넌트의 라이프 사이클 메서드 중에는 shouldComponentUpdate 메서드가 있습니다. 이 메서드는 컴포넌트가 다시 그려지기 전에 호출되며 만약 false를 반환하면 컴포넌트의 VirtualDOM을 비교하지 않습니다.</p><p>다량으로 엘리먼트를 출력하는 리스트나 피드와 같은 컴포넌트는 매번 VirtualDOM을 비교하게 되면 성능 문제가 발생할 수 있으므로 필수로 사용해야 하는 메서드입니다(대도록이면 모든 컴포넌트에 작성하는 습관을 들이는게 좋습니다).</p><dl>
+<dt>참고문서)</dt>
+<dd><a href="https://github.com/markerikson/react-redux-links/blob/master/react-performance.md#immutable-data" target="_blank">https://github.com/markerikson/react-redux-links/blob/master/react-performance.md#immutable-data</a></dd>
+</dl><h1 id="pure-function">Pure function</h1><p>Every other “functional” thing can be derived from this property</p><ol>
+<li>Avoid side effect</li>
+</ol><pre><code>Don't use global 변수
+</code></pre><ol start="2">
+<li>Use high-order function</li>
+</ol><pre><code>1. takes one or more functions as arguments
+2. eturns a function as its result
+
+말로 표현하기 힘들어서 아래와 같이 링크를 걸엇음.
+참고)http://eloquentjavascript.net/05_higher_order.html
+</code></pre><ol start="3">
+<li>Don’t use Iterate</li>
+</ol><pre><code>map or reduce function을 사용한다.
+그에 관련된 라이브러리
+immurabble.js or rammda or lodash or ....
+
+immurabble.js에서는 map등을 처리할때 많은 데이타를 처리하는데 효과적이다.
+대용량 데이타를 처리할떄,
+보통비교나 데이타변경을 처리할때, copy와 같은 작업을 하게되면 메모리문제가 발생하거나 처리속도가 다소 느리다.
+하지만, hash tree알고리즘을 통한.
+   -
+ -  -  -
+A  B  C  D(새로운 변수) - 추천 immurable.js를 이용한 tree
+
+(Copy를 통한 방법) - 비추천
+A B D
+
+</code></pre><ol start="4">
+<li>Don’t use mutability</li>
+</ol><h1 id="high-order-componentshoc">High order Components(HoC)</h1><pre><code class="javascript hljs"><div class="wrapper"><div class="gutter linenumber continue"><span data-linenumber="63"></span>
+<span data-linenumber="64"></span>
+<span data-linenumber="65"></span>
+<span data-linenumber="66"></span>
+<span data-linenumber="67"></span>
+<span data-linenumber="68"></span>
+<span data-linenumber="69"></span>
+<span data-linenumber="70"></span></div><div class="code"><span class="hljs-keyword">const</span> withData = <span class="hljs-function"><span class="hljs-params">url</span> =&gt;</span> Component =&gt; (...)
+
+<span class="hljs-keyword">const</span> withGists = withData(
+  <span class="hljs-string">'https://api.github.com/users/gaearon/gists'</span>
+)
+<span class="hljs-keyword">const</span> ListWithGists = withGists(List)
+
+<span class="hljs-comment">// withData is Hoc</span>
+</div></div></code></pre><h1 id="curring">Curring</h1><pre><code class="javascript hljs"><div class="wrapper"><div class="gutter linenumber continue"><span data-linenumber="71"></span>
+<span data-linenumber="72"></span>
+<span data-linenumber="73"></span>
+<span data-linenumber="74"></span>
+<span data-linenumber="75"></span>
+<span data-linenumber="76"></span>
+<span data-linenumber="77"></span>
+<span data-linenumber="78"></span>
+<span data-linenumber="79"></span>
+<span data-linenumber="80"></span>
+<span data-linenumber="81"></span>
+<span data-linenumber="82"></span>
+<span data-linenumber="83"></span>
+<span data-linenumber="84"></span>
+<span data-linenumber="85"></span>
+<span data-linenumber="86"></span>
+<span data-linenumber="87"></span>
+<span data-linenumber="88"></span>
+<span data-linenumber="89"></span>
+<span data-linenumber="90"></span>
+<span data-linenumber="91"></span>
+<span data-linenumber="92"></span>
+<span data-linenumber="93"></span></div><div class="code"><span class="hljs-keyword">var</span> greetCurried = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">greeting</span>) </span>{
+  <span class="hljs-keyword">return</span> <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">name</span>) </span>{
+    <span class="hljs-built_in">console</span>.log(greeting + <span class="hljs-string">", "</span> + name);
+  };
+};
+
+<span class="hljs-comment">//사용예)</span>
+<span class="hljs-keyword">var</span> greetHello = greetCurried(<span class="hljs-string">"Hello"</span>);
+greetHello(<span class="hljs-string">"Heidi"</span>); <span class="hljs-comment">//"Hello, Heidi"</span>
+greetHello(<span class="hljs-string">"Eddie"</span>); <span class="hljs-comment">//"Hello, Eddie"</span>
+
+<span class="hljs-comment">//또다른 사용예)</span>
+greetCurried(<span class="hljs-string">"Heidi"</span>)(<span class="hljs-string">"Eddie"</span>)
+
+
+<span class="hljs-keyword">const</span> add = <span class="hljs-function">(<span class="hljs-params">x, y</span>) =&gt;</span> x + y
+<span class="hljs-comment">// curring으로 변경한다. </span>
+<span class="hljs-keyword">const</span> add = <span class="hljs-function">(<span class="hljs-params">x</span>) =&gt;</span> y =&gt; x + y
+
+curringAdd = add(<span class="hljs-number">1</span>)
+curringAdd(<span class="hljs-number">2</span>) <span class="hljs-comment">// output 3</span>
+curringAdd(<span class="hljs-number">3</span>) <span class="hljs-comment">// output 4</span>
+
+</div></div></code></pre><p><a href="https://www.sitepoint.com/currying-in-functional-javascript/" target="_blank">https://www.sitepoint.com/currying-in-functional-javascript/</a></p><h1 id="composition">Composition</h1><p>함수를 combine하여 새로운 함수로 만들어서 한다.</p><pre><code class="javascript hljs"><div class="wrapper"><div class="gutter linenumber continue"><span data-linenumber="94"></span>
+<span data-linenumber="95"></span>
+<span data-linenumber="96"></span>
+<span data-linenumber="97"></span></div><div class="code"><span class="hljs-keyword">const</span> add = <span class="hljs-function">(<span class="hljs-params">x, y</span>) =&gt;</span> x + y
+<span class="hljs-keyword">const</span> square = <span class="hljs-function"><span class="hljs-params">x</span> =&gt;</span> x * x
+
+<span class="hljs-keyword">const</span> addAndsquare = <span class="hljs-function">(<span class="hljs-params">x,y</span>) =&gt;</span> square(add(x,y))
+</div></div></code></pre><h1 id="css템플릿">Css템플릿</h1><ol>
+<li>Belle<br>
+Configurable React Components with great UX<br>
+<a href="http://nikgraf.github.io/belle/#/guide/form-components?_k=h27mad" target="_blank">http://nikgraf.github.io/belle/#/guide/form-components?_k=h27mad</a></li>
+</ol><ul>
+<li>
+<p>react-toolbox<br>
+<a href="http://react-toolbox.com/" target="_blank">http://react-toolbox.com/</a></p>
+</li>
+<li>
+<p>elemental-ui<br>
+<a href="http://elemental-ui.com/" target="_blank">http://elemental-ui.com/</a></p>
+</li>
+<li>
+<p>Essence<br>
+<a href="http://getessence.io/home" target="_blank">http://getessence.io/home</a></p>
+</li>
+<li>
+<p>materializecss<br>
+<a href="http://materializecss.com/" target="_blank">http://materializecss.com/</a></p>
+</li>
+<li>
+<p>semantic-ui<br>
+<a href="http://semantic-ui.com/introduction/integrations.html" target="_blank">http://semantic-ui.com/introduction/integrations.html</a></p>
+</li>
+<li>
+<p>grommet<br>
+<a href="https://grommet.github.io/hpe/docs/section" target="_blank">https://grommet.github.io/hpe/docs/section</a></p>
+</li>
+<li>
+<p>10 Best ReactJS UI Frameworks for rapid prototyping<br>
+<a href="https://hashnode.com/post/10-best-reactjs-ui-frameworks-for-rapid-prototyping-cit49tqx414z89c53equ4zc5k" target="_blank">https://hashnode.com/post/10-best-reactjs-ui-frameworks-for-rapid-prototyping-cit49tqx414z89c53equ4zc5k</a></p>
+</li>
+</ul><h1 id="immutable-js-vs-ramda">Immutable-js vs Ramda</h1><p><a href="https://facebook.github.io/immutable-js/" target="_blank">https://facebook.github.io/immutable-js/</a> Immutable-js<br>
+<a href="http://ramdajs.com/" target="_blank">http://ramdajs.com/</a> Ramda</p><p>immutablejs는 대용량 데이타 비교시 적절하다고 생각함. (shouldComponentUpdate)<br>
+Ramda 라이브러리를 사용시 좀더 모던한 코딩이 가능하지 않을까 생각…</p><dl>
+<dt>소개 참고)</dt>
+<dd><a href="https://auth0.com/blog/intro-to-immutable-js/" target="_blank">https://auth0.com/blog/intro-to-immutable-js/</a></dd>
+<dd><a href="http://ohgyun.com/585" target="_blank">http://ohgyun.com/585</a></dd>
+</dl><h1 id="사용모듈packagejson">사용모듈(package.json)</h1><h2 id="dependencies">dependencies</h2><ul>
+<li><a href="https://facebook.github.io/immutable-js/" target="_blank">immutable</a><br>
+<a href="http://thomastuts.com/blog/immutable-js-101-maps-lists.html" target="_blank">http://thomastuts.com/blog/immutable-js-101-maps-lists.html</a></li>
+</ul><pre><code>Immutable data cannot be changed once created,
+leading to much simpler application development,
+no defensive copying, and enabling advanced memoization and
+change detection techniques with simple logic.
+Persistent data presents a mutative API which does not update the data in-place,
+but instead always yields new updated data.
+
+Immutable.js provides many Persistent Immutable data structures including:
+List, Stack, Map, OrderedMap, Set, OrderedSet and Record.
+</code></pre><ul>
+<li>
+<p>lodash</p>
+</li>
+<li>
+<p>minimist<br>
+parse argument options(서버실행 옵션에서 사용함)</p>
+</li>
+<li>
+<p>invariant<br>
+A way to provide descriptive errors in development but generic errors in production.</p>
+</li>
+<li>
+<p>intl</p>
+</li>
+<li>
+<p>react</p>
+</li>
+<li>
+<p>react-dom</p>
+</li>
+<li>
+<p><a href="https://github.com/nfl/react-helmet" target="_blank">react-helmet</a><br>
+head에 관련된 title, base, meta, link, script, noscript, and style tags등을 위해 처리한다.</p>
+</li>
+<li>
+<p><a href="https://github.com/yahoo/react-intl" target="_blank">react-intl</a><br>
+Internationalize React apps. This library provides React components and an API to format dates, numbers, and strings, including pluralization and handling translations.</p>
+</li>
+<li>
+<p><a href="https://github.com/reactjs/react-redux" target="_blank">react-redux</a><br>
+<a href="http://redux.js.org/docs/basics/UsageWithReact.html" target="_blank">http://redux.js.org/docs/basics/UsageWithReact.html</a></p>
+</li>
+<li>
+<p><a href="https://github.com/ReactTraining/react-router" target="_blank">react-router</a><br>
+Declarative routing for React</p>
+</li>
+<li>
+<p><a href="https://github.com/reactjs/react-router-redux" target="_blank">react-router-redux</a><br>
+Ruthlessly simple bindings to keep react-router and redux in sync</p>
+</li>
+</ul><pre><code>You want to do time travel with your application state,
+but React Router doesn't navigate between pages when you replay actions.
+It controls an important part of application state: the URL.
+</code></pre><ul>
+<li><a href="https://github.com/taion/react-router-scroll" target="_blank">react-router-scroll</a><br>
+React Router scroll management 라우터 페이지 이동시 scroll을 제어 상위로 이동등등…</li>
+<li><a href="http://dobbit.github.io/redux/" target="_blank">redux</a></li>
+<li><a href="https://github.com/gajus/redux-immutable" target="_blank">redux-immutable</a><br>
+redux-immutable is used to create an equivalent function of Redux combineReducers that works with Immutable.js state.</li>
+<li><a href="https://github.com/redux-saga/redux-saga" target="_blank">redux-saga</a><br>
+redux-saga vs redux-observable(이것을 사용예정…)<br>
+An alternative side effect model for Redux apps <a href="http://redux-saga.github.io/redux-saga/" target="_blank">http://redux-saga.github.io/redux-saga/</a></li>
+</ul><pre><code>redux-saga is a library that aims to make side effects
+(i.e. asynchronous things like data fetching and impure things like accessing the browser cache)
+in React/Redux applications easier and better.
+The mental model is that a saga is like a separate thread in your application that's
+solely responsible for side effects.
+redux-saga is a redux middleware,
+which means this thread can be started, paused and cancelled from the main application with normal redux actions,
+it has access to the full redux application state and it can dispatch redux actions as well.
+
+It uses an ES6 feature called Generators to make those asynchronous flows easy to read,
+write and test. (if you're not familiar with them here are some introductory links) By doing so,
+these asynchronous flows look like your standard synchronous JavaScript code.
+(kind of like async/await, but generators have a few more awesome features we need)
+
+You might've used redux-thunk before to handle your data fetching.
+Contrary to redux thunk, you don't end up in callback hell,
+you can test your asynchronous flows easily and your actions stay pure.
+</code></pre><ul>
+<li><a href="https://github.com/styled-components/styled-components" target="_blank">styled-components</a><br>
+모던 css 스타일 컴포넌트 기존 css, inline css, css mudules등등을 대체하기위해서 사용함.</li>
+<li><a href="https://jonathantneal.github.io/sanitize.css/" target="_blank">sanitize.css</a></li>
+</ul><pre><code>sanitize.css is a CSS library that corrects broken and missing styles in all browsers,
+preserving useful defaults rather than unstyling everything.
+It’s developed alongside normalize.css,
+so every normalization includes the browsers or browser versions being targeted,
+and every opinionated change is marked and documented.
+</code></pre><ul>
+<li><a href="https://github.com/reactjs/reselect" target="_blank">reselect</a><br>
+<a href="http://blog.rangle.io/react-and-redux-performance-with-reselect/" target="_blank">http://blog.rangle.io/react-and-redux-performance-with-reselect/</a><br>
+Using memoization, we can prevent unnecessary rerenders and recalculations of derived data which in turn will speed up our application.</li>
+</ul><pre><code>1. Selectors can compute derived data, allowing Redux to store the minimal possible state.
+2. Selectors are efficient. A selector is not recomputed unless one of its arguments change.
+3. Selectors are composable. They can be used as input to other selectors.
+</code></pre><ul>
+<li>warning</li>
+<li>whatwg-fetch</li>
+</ul><h1 id="webpack">Webpack</h1><h1 id="참고">참고</h1><p><a href="http://blog.naver.com/jukrang/220751641825" target="_blank">redux 어플리케이션 설계고려사항을 잘설명한 글</a></p><p><a href="https://github.com/mxstbr/react-boilerplate/tree/master/docs" target="_blank">react-boilerplate docs</a></p><h2 id="화면설계-툴">화면설계 툴</h2><p><a href="http://yslab.kr/94" target="_blank">화면설계툴</a></p><h2 id="참고-동영상">참고 동영상</h2><h3 id="rxjs--redux--react">Rxjs + Redux + React</h3><p>Rxjs를 사용하는 이유에 대한 실제 Netflix에서 사용예를 제시하면서 보여줌.<br>
+</p><div class="youtube" data-videoid="AslncyG8whg"><iframe frameborder="0" webkitallowfullscreen="" mozallowfullscreen="" allowfullscreen="" src="https://www.youtube.com/embed/AslncyG8whg"></iframe></div><p></p><h3 id="learning-functional-programming-with-javascript">Learning Functional Programming with JavaScript</h3><p>함수형 언어에 관련된 기본적인 부분을 아주잘설명해줌. Good<br>
+</p><div class="youtube" data-videoid="e-5obm1G_FY"><iframe frameborder="0" webkitallowfullscreen="" mozallowfullscreen="" allowfullscreen="" src="https://www.youtube.com/embed/e-5obm1G_FY"></iframe></div><p></p><h3 id="scaling-react-js-applications">Scaling React js Applications</h3><p></p><div class="youtube" data-videoid="5W1Lqv_8Cqw"><iframe frameborder="0" webkitallowfullscreen="" mozallowfullscreen="" allowfullscreen="" src="https://www.youtube.com/embed/5W1Lqv_8Cqw"></iframe></div><p></p><h3 id="react-ui-development">React UI Development</h3><p></p><div class="youtube" data-videoid="0IkWuXeKPV0"><iframe frameborder="0" webkitallowfullscreen="" mozallowfullscreen="" allowfullscreen="" src="https://www.youtube.com/embed/0IkWuXeKPV0"></iframe></div><p></p><div class="resize-sensor" style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: hidden; z-index: -1; visibility: hidden;"><div class="resize-sensor-expand" style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: hidden; z-index: -1; visibility: hidden;"><div style="position: absolute; left: 0px; top: 0px; transition: 0s; width: 100000px; height: 100000px;"></div></div><div class="resize-sensor-shrink" style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: hidden; z-index: -1; visibility: hidden;"><div style="position: absolute; left: 0; top: 0; transition: 0s; width: 200%; height: 200%"></div></div></div></div>
