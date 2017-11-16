@@ -11,7 +11,7 @@
 
   <title>
     
-      채용정보 &middot; Gtention 기술블로그
+      AWS Volume 정리 &middot; Gtention 기술블로그
     
   </title>
 
@@ -65,39 +65,54 @@
       <div class="post">
   <div class="post-info">
     
+        <img src="https://scontent-hkg3-1.xx.fbcdn.net/v/t1.0-9/936642_905500386224645_7113704243429636156_n.jpg?oh=cfae00146c94276e9091d646d4232dd1&oe=5A9EF71A" style="display: inline-block; width: 80px; height: 80px; border-radius: 50%;"><br>
+    
     <span>작성자 by</span>
     
-        Walter
+        Tyler
     
 
+    
+      <br>
+      <span>on&nbsp;</span><time datetime="2017-11-16 00:00:00 +0900">November 16, 2017</time>
     
   </div>
 
-  <h1 class="post-title">채용정보</h1>
+  <h1 class="post-title">AWS Volume 정리</h1>
   <div class="post-line"></div>
 
-  <div id="doc" class="markdown-body container-fluid"><h1 id="g-tention-app앱-개발-채용">G-tention App앱 개발 채용</h1><h2 id="모집-내용">모집 내용</h2><ol>
-<li>모바일 앱 개발(Android / iOS 선택)</li>
-</ol><h3 id="자격-조건">자격 조건</h3><ol>
-<li>지원 OS(Android / iOS) 관련 경력 3년 이상</li>
-<li>Objective-C / Java(Swift, Kotlin 무관)</li>
-<li>스토어 런칭 및 서비스 운영 유경험자</li>
-<li>버전 관리 및 협업 유경험자</li>
-<li>코드리뷰 유경험자</li>
-</ol><h3 id="우대-사항">우대 사항</h3><ol>
-<li>모바일 OS에 대한 이해를 통해 개발자간 원할한 소통이 가능한분</li>
-<li>Restful API에 대한 이해도가 있는분</li>
-<li>FCM(GCM) / APNS 구조에 대한 이해도가 있는분</li>
-<li>개발 언어에 대한 장벽이 없는 개발자</li>
-<li>E-Commerce 서비스 경험자</li>
-<li>실 서비스(앱)를 1년 이상 운영 경험자</li>
-</ol></div>
+  <div id="doc" class="markdown-body container-fluid"><h1 id="aws-volume-정리">AWS Volume 정리</h1><p><em>AWS</em>는 Storage 관리를 위해 <em>EBS(Elastic Block Store)</em> 서비스를 제공한다. 볼륨은 <em>EBS</em>로 생성된 디스크의 단위이고 특정한 Availablity zone에서 생성되며, 크기는 1GB부터 16TB 까지 있다. 볼륨은 동일한 Availablity zone에 있는 <em>EC2</em> 인스턴스에 연결할 수 있다. 아래와 같은 특징을 가진다.</p><ul>
+<li>필요한 용량에 맞게 구입 가능</li>
+<li>즉시 생성하고, 제거 가능</li>
+<li>사용 한 만큼 과금되는 종량제 정책</li>
+<li>스냅샷을 S3에 저장해서 EBS 상태 보존 가능</li>
+<li><em>CloudWatch</em>를 통해 통계 열람 가능</li>
+<li><em>EC2</em> 인스턴스를 제거해도 독립적이기 때문에 데이터 유지</li>
+</ul><h2 id="ebs-volume-생성하기">EBS Volume 생성하기</h2><p><strong>EC2 -&gt; ELASTIC BLOCK STORE -&gt; Volumes</strong><br>
+해당 경로에서 <code>Create Volume</code>을 통해 볼륨을 생성 할 수 있다.</p><h4 id="volume-type">Volume Type</h4><p>Volume Type에는 5개의 타입 중 선택 할 수 있는데, 다음과 같다.</p><ul>
+<li>General Purpose SSD(GP2): 범용 SSD로 시스템 부트 볼륨이나 개발 및 테스트 환경에 적합하다</li>
+<li>Provisioned IOPS SSD(IO1): IOPS를 최소 100부터 20000까지 커스텀 할 수 있다. 볼륨당 처리량을 필요로 하는 비즈니스 애플리케이션이나 데이터 베이스에 적합하다.</li>
+<li>Throughput Optimized HDD(ST1): 높은 처리량이 필요한 MapReduce, Kafka, ETL, 로그 분석 및 데이터 웨어하우스 업무에 적합하다</li>
+<li>Cold HDD (SC1): 접속은 적게 하지만, 처리량에 최적화 된 업무에 적합하다</li>
+<li>Magnetic: Previous generation HDD</li>
+</ul><p><a href="http://docs.aws.amazon.com/ko_kr/AWSEC2/latest/UserGuide/EBSVolumeTypes.html" target="_blank">자세히 보기</a></p><blockquote>
+<p><em>IOPS(Input Output Per Second)</em>: 저장장치의 속도를 가늠하는 기준이다. 볼륨이 지원 할 수 있는 초당 요청 된 I/O 작업의 수를 나타낸다.</p>
+</blockquote><h4 id="availability-zone">Availability Zone</h4><p><em>EC2</em>가 위치하는 zone과 동일하게 선택한다.</p><h4 id="snapshot-id">Snapshot ID</h4><p>미리 만들어진 스냅샷을 선택해 똑같은 데이터가 저장된 상태로 <em>EBS</em>를 만들 수 있다.</p><h2 id="ec2-인스턴스에-생성한-volume-할당하기">EC2 인스턴스에 생성한 Volume 할당하기</h2><p>생성 된 Volume은 초기에 State가 available 상태이다. 해당 State인 볼륨만 <em>EC2</em>에 할당 할 수 있는데, 할당 할 볼륨을 선택하고 Actions -&gt; Attach Volume을 통해 <em>EC2</em> 인스턴스를 지정해 할당한다.</p><h4 id="instances">Instances</h4><p>Volume을 결합시킬 <em>EC2</em> 인스턴스의 ID.</p><h4 id="devices">Devices</h4><p>마운트 하려는 장치의 이름을 지정할 수 있다. 장치의 이름은 리눅스 버전에 따라서 달라질 수 있다. <strong>일부 리눅스(ex: ubuntu)에서는 지정된 이름 외에 다른 이름으로 지정 될 수 있다.</strong> 예를들어, <em>dev/sdb</em>는 <em>dev/xvdb</em>로 <em>dev/sdf</em>는 <em>dev/xvdf</em>로 바뀌는 식이다.</p><blockquote>
+<p>리눅스에서는 여러 하드웨어 장치를 사용하기 위해 운영체제에 인식시켜야 하는데, 이것이 Mount이다.</p>
+</blockquote><h2 id="ec2-인스턴스에-ebs-마운트-하기">EC2 인스턴스에 EBS 마운트 하기</h2><p>Attach 된 <em>EBS</em> 볼륨을 OS가 인식해서 특정 디렉토리에 붙이는 작업이다. <code>df</code> 명령어를 통해 현재 마운트 된 장치들의 리스트를 볼 수 있다. 최초로 만들어진 <em>EBS</em> 볼륨은 포맷을 해야 하는데, 아래의 명령어를 사용한다.</p><pre><code class="{} hljs"><span class="hljs-attribute">sudo</span> mkfs.ext4 /dev/xvdf
+</code></pre><p><em>.ext4</em>는 파일 시스템의 버전을 의미한다. /dev/xvdf에 해당하는 장치를 포맷하겠다는 의미를 가진 명령어다. 포맷이 완료되면, <em>EBS</em>를 특정 디렉토리에 마운트 시킨다.</p><pre><code class="{} hljs"><span class="hljs-attribute">sudo</span> mkdir /files
+sudo mount /dev/xvdf /files
+</code></pre><p>마운트를 하기위한 디렉터리가 존재하지 않으면, 미리 생성하고 진행 한다.<br>
+모든 마운트 절차가 끝나고, <code>df</code> 명령어를 통해 정상적으로 디렉터리에 마운트 된 것을 확인 할 수 있다.</p><h2 id="ebs-언마운트-하기">EBS 언마운트 하기</h2><pre><code class="{} hljs"><span class="hljs-attribute">sudo</span> umount /dev/xvdf
+</code></pre><p>해당 명령어로 장치를 해제한다.</p></div>
 
 
 </div>
 
 <div class="pagination">
   
+  
+    <a href="/2017-03-07/the-case-of-the-missing-post" class="right arrow">&#8594;</a>
   
 
   <a href="#" class="top">Top</a>
