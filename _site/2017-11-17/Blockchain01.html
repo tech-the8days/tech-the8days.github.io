@@ -11,7 +11,7 @@
 
   <title>
     
-      AWS Volume 정리 &middot; Tech
+      BlockchainDay - 블록체인 기술 컨퍼런스 참관기 &middot; Tech
     
   </title>
 
@@ -55,46 +55,103 @@
       <div class="post">
   <div class="post-info">
     
-        <img src="https://scontent-hkg3-1.xx.fbcdn.net/v/t1.0-9/936642_905500386224645_7113704243429636156_n.jpg?oh=cfae00146c94276e9091d646d4232dd1&oe=5A9EF71A" style="display: inline-block; width: 60px; height: 60px; border-radius: 50%;"><br>
+        <img src="https://scontent-hkg3-1.xx.fbcdn.net/v/t1.0-9/10366030_636578009746259_1851482307728595160_n.jpg?oh=925e7a27aa8d6a742ff26e99a471886f&oe=5AA13418" style="display: inline-block; width: 60px; height: 60px; border-radius: 50%;"><br>
     
     <span>작성자 by</span>
     
-        Tyler
+        Walter
     
 
     
       <br>
-      <span>on&nbsp;</span><time datetime="2017-11-16 00:00:00 +0900">November 16, 2017</time>
+      <span>on&nbsp;</span><time datetime="2017-11-17 00:00:00 +0900">November 17, 2017</time>
     
   </div>
 
-  <h1 class="post-title">AWS Volume 정리</h1>
+  <h1 class="post-title">BlockchainDay - 블록체인 기술 컨퍼런스 참관기</h1>
   <div class="post-line"></div>
 
-  <div id="doc" class="markdown-body container-fluid"><h1 id="aws-volume-정리">AWS Volume 정리</h1><p><em>AWS</em>는 Storage 관리를 위해 <em>EBS(Elastic Block Store)</em> 서비스를 제공한다. 볼륨은 <em>EBS</em>로 생성된 디스크의 단위이고 특정한 Availablity zone에서 생성되며, 크기는 1GB부터 16TB 까지 있다. 볼륨은 동일한 Availablity zone에 있는 <em>EC2</em> 인스턴스에 연결할 수 있다. 아래와 같은 특징을 가진다.</p><ul>
-<li>필요한 용량에 맞게 구입 가능</li>
-<li>즉시 생성하고, 제거 가능</li>
-<li>사용 한 만큼 과금되는 종량제 정책</li>
-<li>스냅샷을 S3에 저장해서 EBS 상태 보존 가능</li>
-<li><em>CloudWatch</em>를 통해 통계 열람 가능</li>
-<li><em>EC2</em> 인스턴스를 제거해도 독립적이기 때문에 데이터 유지</li>
-</ul><h2 id="ebs-volume-생성하기">EBS Volume 생성하기</h2><p><strong>EC2 -&gt; ELASTIC BLOCK STORE -&gt; Volumes</strong><br>
-해당 경로에서 <code>Create Volume</code>을 통해 볼륨을 생성 할 수 있다.</p><h4 id="volume-type">Volume Type</h4><p>Volume Type에는 5개의 타입 중 선택 할 수 있는데, 다음과 같다.</p><ul>
-<li>General Purpose SSD(GP2): 범용 SSD로 시스템 부트 볼륨이나 개발 및 테스트 환경에 적합하다</li>
-<li>Provisioned IOPS SSD(IO1): IOPS를 최소 100부터 20000까지 커스텀 할 수 있다. 볼륨당 처리량을 필요로 하는 비즈니스 애플리케이션이나 데이터 베이스에 적합하다.</li>
-<li>Throughput Optimized HDD(ST1): 높은 처리량이 필요한 MapReduce, Kafka, ETL, 로그 분석 및 데이터 웨어하우스 업무에 적합하다</li>
-<li>Cold HDD (SC1): 접속은 적게 하지만, 처리량에 최적화 된 업무에 적합하다</li>
-<li>Magnetic: Previous generation HDD</li>
-</ul><p><a href="http://docs.aws.amazon.com/ko_kr/AWSEC2/latest/UserGuide/EBSVolumeTypes.html" target="_blank">자세히 보기</a></p><blockquote>
-<p><em>IOPS(Input Output Per Second)</em>: 저장장치의 속도를 가늠하는 기준이다. 볼륨이 지원 할 수 있는 초당 요청 된 I/O 작업의 수를 나타낸다.</p>
-</blockquote><h4 id="availability-zone">Availability Zone</h4><p><em>EC2</em>가 위치하는 zone과 동일하게 선택한다.</p><h4 id="snapshot-id">Snapshot ID</h4><p>미리 만들어진 스냅샷을 선택해 똑같은 데이터가 저장된 상태로 <em>EBS</em>를 만들 수 있다.</p><h2 id="ec2-인스턴스에-생성한-volume-할당하기">EC2 인스턴스에 생성한 Volume 할당하기</h2><p>생성 된 Volume은 초기에 State가 available 상태이다. 해당 State인 볼륨만 <em>EC2</em>에 할당 할 수 있는데, 할당 할 볼륨을 선택하고 Actions -&gt; Attach Volume을 통해 <em>EC2</em> 인스턴스를 지정해 할당한다.</p><h4 id="instances">Instances</h4><p>Volume을 결합시킬 <em>EC2</em> 인스턴스의 ID.</p><h4 id="devices">Devices</h4><p>마운트 하려는 장치의 이름을 지정할 수 있다. 장치의 이름은 리눅스 버전에 따라서 달라질 수 있다. <strong>일부 리눅스(ex: ubuntu)에서는 지정된 이름 외에 다른 이름으로 지정 될 수 있다.</strong> 예를들어, <em>dev/sdb</em>는 <em>dev/xvdb</em>로 <em>dev/sdf</em>는 <em>dev/xvdf</em>로 바뀌는 식이다.</p><blockquote>
-<p>리눅스에서는 여러 하드웨어 장치를 사용하기 위해 운영체제에 인식시켜야 하는데, 이것이 Mount이다.</p>
-</blockquote><h2 id="ec2-인스턴스에-ebs-마운트-하기">EC2 인스턴스에 EBS 마운트 하기</h2><p>Attach 된 <em>EBS</em> 볼륨을 OS가 인식해서 특정 디렉토리에 붙이는 작업이다. <code>df</code> 명령어를 통해 현재 마운트 된 장치들의 리스트를 볼 수 있다. 최초로 만들어진 <em>EBS</em> 볼륨은 포맷을 해야 하는데, 아래의 명령어를 사용한다.</p><pre><code class="{} hljs"><span class="hljs-attribute">sudo</span> mkfs.ext4 /dev/xvdf
-</code></pre><p><em>.ext4</em>는 파일 시스템의 버전을 의미한다. /dev/xvdf에 해당하는 장치를 포맷하겠다는 의미를 가진 명령어다. 포맷이 완료되면, <em>EBS</em>를 특정 디렉토리에 마운트 시킨다.</p><pre><code class="{} hljs"><span class="hljs-attribute">sudo</span> mkdir /files
-sudo mount /dev/xvdf /files
-</code></pre><p>마운트를 하기위한 디렉터리가 존재하지 않으면, 미리 생성하고 진행 한다.<br>
-모든 마운트 절차가 끝나고, <code>df</code> 명령어를 통해 정상적으로 디렉터리에 마운트 된 것을 확인 할 수 있다.</p><h2 id="ebs-언마운트-하기">EBS 언마운트 하기</h2><pre><code class="{} hljs"><span class="hljs-attribute">sudo</span> umount /dev/xvdf
-</code></pre><p>해당 명령어로 장치를 해제한다.</p></div>
+  <div id="doc" class="markdown-body container-fluid" style="position: relative;"><h1 id="blockchainday-블록체인-기술-컨퍼런스-참관기">BlockchainDay - 블록체인 기술 컨퍼런스 참관기</h1><pre><code>2017-11-08일에 10시부터 17시까지 개발팀과 함께 참가한 컨퍼런스 참여기를 작성해본다.
+250명정도의 좌석에 만석으로 지하 마루180에서 이루어졌다.
+참가비는 3만원정도에 아침부터 저녁까지 끊이지않는 간식과 점심으로 만족스러운 시간이었다.
+최근까지 블록체인관련해서 기술 컨퍼런스는 없었던것같다.
+이번 기회를 통해서 내가 생각한것보다 많은 정보를 얻게됐고, 방향성을 잡는데 도움이 된듯하다.
+발표자가 제공한 PDF가 너무 훌륭해서 짜집기수준이 될듯함^^
+</code></pre><h4 id="세션순서">세션순서</h4><ul>
+<li>Blockchain 기술 소개 - Bitcoin 및 Ethereum Blockchain 중심 - 한재선 (퓨처플레이)</li>
+<li>프로그래머블 블록체인 , 코어 이더리움 플랫폼 - 박재현 (SKT)</li>
+<li>Blockchain Consensus Mechanism - 김균태 (Blockchain Partners Korea)</li>
+<li>Solidity를 이용한 Ethereum 스마트 컨트랙트 프로그래밍 기초 - 정진경 (Kodebox)</li>
+<li>Ethereum 스마트 컨트랙트 보안 이슈와 해결책 - 서광열 (Kodebox)</li>
+<li>Ethereum Dapp 개발 사례 - Asset Exchange YOSEMITE alpha - 임병완 (Bezalel Lim) (Asset Exchange YOSEMITE)</li>
+<li>Panel Discussion: Blockchain과 Smart Contract 개발 이슈와 전망</li>
+</ul><h1 id="1-blockchain-기술-소개">1. Blockchain 기술 소개</h1><p><img src="https://i.imgur.com/Bv18nmb.png" alt=""></p><blockquote>
+<p>Bitcoin 및 Ethereum Blockchain 중심</p>
+</blockquote><pre><code>FuturePlay CTO 한재선님이 기본적인 블록체인과 비트코인에 대해서 자세히 설명한 세션
+가장 기본적이면서 다음세션에 이해하는데 많은 도움이 됐다.
+</code></pre><h3 id="blockchain">Blockchain</h3><blockquote>
+<p>P2P Network + Distributed Ledger</p>
+</blockquote><h4 id="블록체인-과제">블록체인 과제</h4><ul>
+<li>Secure Data Structure</li>
+<li>Distributed Consensus</li>
+</ul><h4 id="untrusted-p2p-nodes">Untrusted P2P Nodes</h4><ul>
+<li>May crash</li>
+<li>May be malicious</li>
+<li>May be disconnected</li>
+<li>May be delayed</li>
+</ul><h4 id="필요한-지식">필요한 지식</h4><ul>
+<li>P2P 네트워크</li>
+<li>cryptographic</li>
+<li>알고리즘</li>
+<li>Swarm - Storage</li>
+<li>Whisper - messaging</li>
+</ul><p><img src="https://i.imgur.com/P8CCCz0.png" alt=""></p><h3 id="bitcoin">bitcoin</h3><p>A continuously growing linked list of records, called blocks,<br>
+cryptographically secured from tampering and revision</p><p><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/55/Bitcoin_Block_Data.svg/900px-Bitcoin_Block_Data.svg.png" alt=""></p><h3 id="중앙서버-문제">중앙서버 문제</h3><ol>
+<li>내부, 외부집단에 의한 해킹과 데이타 유출에 대한 위험성</li>
+<li>정부와 소수 독점기업에 의한 개인 사생활에 대한 침해, 감시에 대한 우려가 존재한다.</li>
+<li>지나친 이윤의 집중으로 새로운 혁신적인 서비스들이 경쟁할 수 있는 기반이 약화되고 있고, 독점적인 지위를 차지한 기업들의 시장지배 때문에 생기는 비효율성이 생길수 있다.</li>
+</ol><blockquote>
+<p>우버라는 공유경제 모델을 지향한 서비스 모델도 등장했지만,<br>
+이 역시 중앙화된 서버를 가진 회사가 이 시스템의 효율성에 의해 생긴 부의 대부분을 다 가져가고 막상 이에 종사하는 운전사들은 이전 택시 운전사들보다 더 열악한 근무조건에서 일해야 되는 경우도 많아졌습니다.  (기사내용)</p>
+</blockquote><p>모든 서비스를 탈중앙화 하는것은 바람직하지 못하다. 다만, 어떠한조건의 서비스가 바람직한지 고민할 필요가 있다.<br>
+<img src="https://lh4.googleusercontent.com/zFWJixXs5MMpkBrjjNc9ZNY-v5ItbkyiMG6yNW5SCwyMBxTMsyUTniQEtyJ6Uwufrx5pXJhSRkDHayDqau_DfcUekyQuEH9JK2TpB5IOeuUH4nN8S-f5tH1GHXSu9u-xMRgkKUcL" alt=""></p><h3 id="탈중앙화">탈중앙화</h3><p>중앙서버에 차이점은 서버라는게 없이 독립노드가 모든 데이타를 가지게 됩니다.</p><p><img src="https://lh6.googleusercontent.com/DfTNPvzvhmiUiPyOrp97urRHO_si-SG4pvHS237-0bmsr30SufNSNxfPnVQVEO18C3SpcXwpfAg7aEk2irya7LJvScakc2AGWDgYk9siiVbatS-auMGZHAWCoSVn1SvZCioEHtVx" alt=""></p><h1 id="결론">결론</h1><h1 id="references-bitcoin">References - Bitcoin</h1><h3 id="highly-recommended">Highly Recommended</h3><p>References – Bitcoin<br>
+• Bitcoin and Cryptocurrency Technologies (Book &amp; Video Lectures) • <a href="http://bitcoinbook.cs.princeton.edu/" target="_blank">http://bitcoinbook.cs.princeton.edu/</a><br>
+• <a href="https://www.coursera.org/learn/cryptocurrency" target="_blank">https://www.coursera.org/learn/cryptocurrency</a><br>
+• Mastering Bitcoin<br>
+• <a href="https://github.com/bitcoinbook/bitcoinbook" target="_blank">https://github.com/bitcoinbook/bitcoinbook</a><br>
+• <a href="http://chimera.labs.oreilly.com/books/1234000001802/index.html" target="_blank">http://chimera.labs.oreilly.com/books/1234000001802/index.html</a><br>
+• Bitcoin Khan Academy<br>
+• <a href="https://www.khanacademy.org/economics-finance-domain/core-finance/money-and-banking/bitcoin/v/bitcoin-what-is-it" target="_blank">https://www.khanacademy.org/economics-finance-domain/core-finance/money-and-banking/bitcoin/v/bitcoin-what-is-it</a><br>
+• Bitcoin Paper by Satoshi Nakamoto • <a href="https://bitcoin.org/bitcoin.pdf" target="_blank">https://bitcoin.org/bitcoin.pdf</a></p><h3 id="recommended">Recommended</h3><p>• A gentle introduction to bitcoin<br>
+• <a href="https://bitsonblocks.net/2015/09/01/a-gentle-introduction-to-bitcoin/" target="_blank">https://bitsonblocks.net/2015/09/01/a-gentle-introduction-to-bitcoin/</a><br>
+• 알기 쉽게 이해하는 비트코인<br>
+• <a href="http://www.leejungmin.org/post/2017/05/30/mastering-bitcoin/" target="_blank">http://www.leejungmin.org/post/2017/05/30/mastering-bitcoin/</a><br>
+• Bitcoin Wiki<br>
+• <a href="https://en.bitcoin.it/wiki/Main_Page" target="_blank">https://en.bitcoin.it/wiki/Main_Page</a><br>
+• Steemit Bitcoin Sector<br>
+• <a href="https://steemit.com/trending/bitcoin" target="_blank">https://steemit.com/trending/bitcoin</a><br>
+• Bitcoin Resources<br>
+• <a href="https://bitcoin.org/en/resources" target="_blank">https://bitcoin.org/en/resources</a></p><h1 id="references-–-ethereum">References – Ethereum</h1><h3 id="recommended1">Recommended</h3><p>• Ethereum White Paper<br>
+• <a href="https://github.com/ethereum/wiki/wiki/White-Paper" target="_blank">https://github.com/ethereum/wiki/wiki/White-Paper</a><br>
+• Ethereum Yellow Paper – Full Technical Specs<br>
+• <a href="https://ethereum.github.io/yellowpaper/paper.pdf" target="_blank">https://ethereum.github.io/yellowpaper/paper.pdf</a><br>
+• Ethereum: Platform Review by Vitalik Buterin<br>
+• <a href="https://static1.squarespace.com/static/55f73743e4b051cfcc0b02cf/t/57506f387da24ff6bdecb3c1/1464889147417/Ethereum_Paper.pdf" target="_blank">https://static1.squarespace.com/static/55f73743e4b051cfcc0b02cf/t/57506f387da24ff6bdecb3c1/1464889147417/Ethereum_Paper.pdf</a><br>
+• Ethereum Development Tutorial<br>
+• <a href="https://github.com/ethereum/wiki/wiki/Ethereum-Development-Tutorial" target="_blank">https://github.com/ethereum/wiki/wiki/Ethereum-Development-Tutorial</a><br>
+• Mahesh Murthy – Ethereum Dapp Development • <a href="https://medium.com/@mvmurthy" target="_blank">https://medium.com/@mvmurthy</a><br>
+• Ethereum Documentation <a href="http://www.ethdocs.org/en/latest/" target="_blank">http://www.ethdocs.org/en/latest/</a><br>
+• Solidity Documentation<br>
+• <a href="https://solidity.readthedocs.io/en/develop/index.html" target="_blank">https://solidity.readthedocs.io/en/develop/index.html</a><br>
+• Blockgeeks Guide <a href="https://blockgeeks.com/guides/" target="_blank">https://blockgeeks.com/guides/</a><br>
+• Introducing Ethereum and Solidity (Book &amp; Resources)<br>
+• <a href="https://github.com/chrisdannen/Introducing-Ethereum-and-Solidity" target="_blank">https://github.com/chrisdannen/Introducing-Ethereum-and-Solidity</a><br>
+• <a href="https://www.apress.com/us/book/9781484225349" target="_blank">https://www.apress.com/us/book/9781484225349</a><br>
+• B9lab Ethereum 101 Lecture<br>
+• <a href="https://academy.b9lab.com/courses/B9lab/X16-0/2016/about" target="_blank">https://academy.b9lab.com/courses/B9lab/X16-0/2016/about</a><br>
+• CodeChain Edu Offline Lecture <a href="http://edu.codechain.io/" target="_blank">http://edu.codechain.io/</a><br>
+• 땡글 개발자 추천글 <a href="https://www.ddengle.com/bitcoindeveloper_voted" target="_blank">https://www.ddengle.com/bitcoindeveloper_voted</a><br>
+• ChainTalk Dapp Development Series Posting <a href="http://www.chaintalk.io/archive/lecture/1" target="_blank">http://www.chaintalk.io/archive/lecture/1</a></p></div>
 
   <div id="disqus_thread"></div>
 
@@ -102,10 +159,8 @@ sudo mount /dev/xvdf /files
 
 <div class="pagination">
   
-    <a href="/2017-11-16/React-Start" class="left arrow">&#8592;</a>
   
-  
-    <a href="/2017-03-07/the-case-of-the-missing-post" class="right arrow">&#8594;</a>
+    <a href="/2017-11-16/React-Start" class="right arrow">&#8594;</a>
   
 
   <a href="#" class="top">Top</a>

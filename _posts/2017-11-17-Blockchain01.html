@@ -1,0 +1,88 @@
+---
+layout: post
+title: "BlockchainDay - 블록체인 기술 컨퍼런스 참관기"
+author: "Walter"
+profile_img: "https://scontent-hkg3-1.xx.fbcdn.net/v/t1.0-9/10366030_636578009746259_1851482307728595160_n.jpg?oh=925e7a27aa8d6a742ff26e99a471886f&oe=5AA13418"
+---
+
+<div id="doc" class="markdown-body container-fluid" style="position: relative;"><h1 id="blockchainday-블록체인-기술-컨퍼런스-참관기">BlockchainDay - 블록체인 기술 컨퍼런스 참관기</h1><pre><code>2017-11-08일에 10시부터 17시까지 개발팀과 함께 참가한 컨퍼런스 참여기를 작성해본다.
+250명정도의 좌석에 만석으로 지하 마루180에서 이루어졌다.
+참가비는 3만원정도에 아침부터 저녁까지 끊이지않는 간식과 점심으로 만족스러운 시간이었다.
+최근까지 블록체인관련해서 기술 컨퍼런스는 없었던것같다.
+이번 기회를 통해서 내가 생각한것보다 많은 정보를 얻게됐고, 방향성을 잡는데 도움이 된듯하다.
+발표자가 제공한 PDF가 너무 훌륭해서 짜집기수준이 될듯함^^
+</code></pre><h4 id="세션순서">세션순서</h4><ul>
+<li>Blockchain 기술 소개 - Bitcoin 및 Ethereum Blockchain 중심 - 한재선 (퓨처플레이)</li>
+<li>프로그래머블 블록체인 , 코어 이더리움 플랫폼 - 박재현 (SKT)</li>
+<li>Blockchain Consensus Mechanism - 김균태 (Blockchain Partners Korea)</li>
+<li>Solidity를 이용한 Ethereum 스마트 컨트랙트 프로그래밍 기초 - 정진경 (Kodebox)</li>
+<li>Ethereum 스마트 컨트랙트 보안 이슈와 해결책 - 서광열 (Kodebox)</li>
+<li>Ethereum Dapp 개발 사례 - Asset Exchange YOSEMITE alpha - 임병완 (Bezalel Lim) (Asset Exchange YOSEMITE)</li>
+<li>Panel Discussion: Blockchain과 Smart Contract 개발 이슈와 전망</li>
+</ul><h1 id="1-blockchain-기술-소개">1. Blockchain 기술 소개</h1><p><img src="https://i.imgur.com/Bv18nmb.png" alt=""></p><blockquote>
+<p>Bitcoin 및 Ethereum Blockchain 중심</p>
+</blockquote><pre><code>FuturePlay CTO 한재선님이 기본적인 블록체인과 비트코인에 대해서 자세히 설명한 세션
+가장 기본적이면서 다음세션에 이해하는데 많은 도움이 됐다.
+</code></pre><h3 id="blockchain">Blockchain</h3><blockquote>
+<p>P2P Network + Distributed Ledger</p>
+</blockquote><h4 id="블록체인-과제">블록체인 과제</h4><ul>
+<li>Secure Data Structure</li>
+<li>Distributed Consensus</li>
+</ul><h4 id="untrusted-p2p-nodes">Untrusted P2P Nodes</h4><ul>
+<li>May crash</li>
+<li>May be malicious</li>
+<li>May be disconnected</li>
+<li>May be delayed</li>
+</ul><h4 id="필요한-지식">필요한 지식</h4><ul>
+<li>P2P 네트워크</li>
+<li>cryptographic</li>
+<li>알고리즘</li>
+<li>Swarm - Storage</li>
+<li>Whisper - messaging</li>
+</ul><p><img src="https://i.imgur.com/P8CCCz0.png" alt=""></p><h3 id="bitcoin">bitcoin</h3><p>A continuously growing linked list of records, called blocks,<br>
+cryptographically secured from tampering and revision</p><p><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/55/Bitcoin_Block_Data.svg/900px-Bitcoin_Block_Data.svg.png" alt=""></p><h3 id="중앙서버-문제">중앙서버 문제</h3><ol>
+<li>내부, 외부집단에 의한 해킹과 데이타 유출에 대한 위험성</li>
+<li>정부와 소수 독점기업에 의한 개인 사생활에 대한 침해, 감시에 대한 우려가 존재한다.</li>
+<li>지나친 이윤의 집중으로 새로운 혁신적인 서비스들이 경쟁할 수 있는 기반이 약화되고 있고, 독점적인 지위를 차지한 기업들의 시장지배 때문에 생기는 비효율성이 생길수 있다.</li>
+</ol><blockquote>
+<p>우버라는 공유경제 모델을 지향한 서비스 모델도 등장했지만,<br>
+이 역시 중앙화된 서버를 가진 회사가 이 시스템의 효율성에 의해 생긴 부의 대부분을 다 가져가고 막상 이에 종사하는 운전사들은 이전 택시 운전사들보다 더 열악한 근무조건에서 일해야 되는 경우도 많아졌습니다.  (기사내용)</p>
+</blockquote><p>모든 서비스를 탈중앙화 하는것은 바람직하지 못하다. 다만, 어떠한조건의 서비스가 바람직한지 고민할 필요가 있다.<br>
+<img src="https://lh4.googleusercontent.com/zFWJixXs5MMpkBrjjNc9ZNY-v5ItbkyiMG6yNW5SCwyMBxTMsyUTniQEtyJ6Uwufrx5pXJhSRkDHayDqau_DfcUekyQuEH9JK2TpB5IOeuUH4nN8S-f5tH1GHXSu9u-xMRgkKUcL" alt=""></p><h3 id="탈중앙화">탈중앙화</h3><p>중앙서버에 차이점은 서버라는게 없이 독립노드가 모든 데이타를 가지게 됩니다.</p><p><img src="https://lh6.googleusercontent.com/DfTNPvzvhmiUiPyOrp97urRHO_si-SG4pvHS237-0bmsr30SufNSNxfPnVQVEO18C3SpcXwpfAg7aEk2irya7LJvScakc2AGWDgYk9siiVbatS-auMGZHAWCoSVn1SvZCioEHtVx" alt=""></p><h1 id="결론">결론</h1><h1 id="references-bitcoin">References - Bitcoin</h1><h3 id="highly-recommended">Highly Recommended</h3><p>References – Bitcoin<br>
+• Bitcoin and Cryptocurrency Technologies (Book &amp; Video Lectures) • <a href="http://bitcoinbook.cs.princeton.edu/" target="_blank">http://bitcoinbook.cs.princeton.edu/</a><br>
+• <a href="https://www.coursera.org/learn/cryptocurrency" target="_blank">https://www.coursera.org/learn/cryptocurrency</a><br>
+• Mastering Bitcoin<br>
+• <a href="https://github.com/bitcoinbook/bitcoinbook" target="_blank">https://github.com/bitcoinbook/bitcoinbook</a><br>
+• <a href="http://chimera.labs.oreilly.com/books/1234000001802/index.html" target="_blank">http://chimera.labs.oreilly.com/books/1234000001802/index.html</a><br>
+• Bitcoin Khan Academy<br>
+• <a href="https://www.khanacademy.org/economics-finance-domain/core-finance/money-and-banking/bitcoin/v/bitcoin-what-is-it" target="_blank">https://www.khanacademy.org/economics-finance-domain/core-finance/money-and-banking/bitcoin/v/bitcoin-what-is-it</a><br>
+• Bitcoin Paper by Satoshi Nakamoto • <a href="https://bitcoin.org/bitcoin.pdf" target="_blank">https://bitcoin.org/bitcoin.pdf</a></p><h3 id="recommended">Recommended</h3><p>• A gentle introduction to bitcoin<br>
+• <a href="https://bitsonblocks.net/2015/09/01/a-gentle-introduction-to-bitcoin/" target="_blank">https://bitsonblocks.net/2015/09/01/a-gentle-introduction-to-bitcoin/</a><br>
+• 알기 쉽게 이해하는 비트코인<br>
+• <a href="http://www.leejungmin.org/post/2017/05/30/mastering-bitcoin/" target="_blank">http://www.leejungmin.org/post/2017/05/30/mastering-bitcoin/</a><br>
+• Bitcoin Wiki<br>
+• <a href="https://en.bitcoin.it/wiki/Main_Page" target="_blank">https://en.bitcoin.it/wiki/Main_Page</a><br>
+• Steemit Bitcoin Sector<br>
+• <a href="https://steemit.com/trending/bitcoin" target="_blank">https://steemit.com/trending/bitcoin</a><br>
+• Bitcoin Resources<br>
+• <a href="https://bitcoin.org/en/resources" target="_blank">https://bitcoin.org/en/resources</a></p><h1 id="references-–-ethereum">References – Ethereum</h1><h3 id="recommended1">Recommended</h3><p>• Ethereum White Paper<br>
+• <a href="https://github.com/ethereum/wiki/wiki/White-Paper" target="_blank">https://github.com/ethereum/wiki/wiki/White-Paper</a><br>
+• Ethereum Yellow Paper – Full Technical Specs<br>
+• <a href="https://ethereum.github.io/yellowpaper/paper.pdf" target="_blank">https://ethereum.github.io/yellowpaper/paper.pdf</a><br>
+• Ethereum: Platform Review by Vitalik Buterin<br>
+• <a href="https://static1.squarespace.com/static/55f73743e4b051cfcc0b02cf/t/57506f387da24ff6bdecb3c1/1464889147417/Ethereum_Paper.pdf" target="_blank">https://static1.squarespace.com/static/55f73743e4b051cfcc0b02cf/t/57506f387da24ff6bdecb3c1/1464889147417/Ethereum_Paper.pdf</a><br>
+• Ethereum Development Tutorial<br>
+• <a href="https://github.com/ethereum/wiki/wiki/Ethereum-Development-Tutorial" target="_blank">https://github.com/ethereum/wiki/wiki/Ethereum-Development-Tutorial</a><br>
+• Mahesh Murthy – Ethereum Dapp Development • <a href="https://medium.com/@mvmurthy" target="_blank">https://medium.com/@mvmurthy</a><br>
+• Ethereum Documentation <a href="http://www.ethdocs.org/en/latest/" target="_blank">http://www.ethdocs.org/en/latest/</a><br>
+• Solidity Documentation<br>
+• <a href="https://solidity.readthedocs.io/en/develop/index.html" target="_blank">https://solidity.readthedocs.io/en/develop/index.html</a><br>
+• Blockgeeks Guide <a href="https://blockgeeks.com/guides/" target="_blank">https://blockgeeks.com/guides/</a><br>
+• Introducing Ethereum and Solidity (Book &amp; Resources)<br>
+• <a href="https://github.com/chrisdannen/Introducing-Ethereum-and-Solidity" target="_blank">https://github.com/chrisdannen/Introducing-Ethereum-and-Solidity</a><br>
+• <a href="https://www.apress.com/us/book/9781484225349" target="_blank">https://www.apress.com/us/book/9781484225349</a><br>
+• B9lab Ethereum 101 Lecture<br>
+• <a href="https://academy.b9lab.com/courses/B9lab/X16-0/2016/about" target="_blank">https://academy.b9lab.com/courses/B9lab/X16-0/2016/about</a><br>
+• CodeChain Edu Offline Lecture <a href="http://edu.codechain.io/" target="_blank">http://edu.codechain.io/</a><br>
+• 땡글 개발자 추천글 <a href="https://www.ddengle.com/bitcoindeveloper_voted" target="_blank">https://www.ddengle.com/bitcoindeveloper_voted</a><br>
+• ChainTalk Dapp Development Series Posting <a href="http://www.chaintalk.io/archive/lecture/1" target="_blank">http://www.chaintalk.io/archive/lecture/1</a></p></div>
